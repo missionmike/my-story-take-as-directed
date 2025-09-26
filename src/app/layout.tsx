@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "./globals.scss";
 
 export const metadata: Metadata = {
   title: "Take As Directed",
-  description:
-    "A modern app that fetches content from Google Docs and renders each tab as its own page",
+  description: "An autobiographical work by Michael Dinerstein",
 };
 
 export default function RootLayout({
