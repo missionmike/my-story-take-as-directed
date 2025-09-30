@@ -1,14 +1,14 @@
 "use client";
 
 import { GoogleDocsContent } from "@/types/googleDocs";
-import RichTextRenderer from "./RichTextRenderer";
+import { RichTextRenderer } from "./RichTextRenderer";
 import styles from "./MainContent.module.scss";
 
 interface MainContentProps {
   document: GoogleDocsContent;
 }
 
-export default function MainContent({ document }: MainContentProps) {
+export function MainContent({ document }: MainContentProps) {
   return (
     <div className={styles.mainContent}>
       {/* Document Title */}
@@ -18,17 +18,23 @@ export default function MainContent({ document }: MainContentProps) {
 
       <div className={styles.bookContent}>
         {document.tabs.map((tab, index) => (
-          <section key={index} id={`tab-${index}`} className={styles.tabSection}>
+          <section
+            key={index}
+            id={`tab-${index}`}
+            className={styles.tabSection}
+          >
             <div className={styles.tabContent}>
               {tab.richContent ? (
                 <RichTextRenderer content={tab.richContent} />
               ) : tab.content ? (
                 <div className="prose prose-lg max-w-none">
-                  {tab.content.split("\n").map((line: string, lineIndex: number) => (
-                    <p key={lineIndex} className="mb-4 last:mb-0">
-                      {line}
-                    </p>
-                  ))}
+                  {tab.content
+                    .split("\n")
+                    .map((line: string, lineIndex: number) => (
+                      <p key={lineIndex} className="mb-4 last:mb-0">
+                        {line}
+                      </p>
+                    ))}
                 </div>
               ) : (
                 <div className={styles.noContent}>

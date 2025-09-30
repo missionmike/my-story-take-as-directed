@@ -8,7 +8,7 @@ interface RichTextRendererProps {
   content: GoogleDocsElement[];
 }
 
-export default function RichTextRenderer({ content }: RichTextRendererProps) {
+export function RichTextRenderer({ content }: RichTextRendererProps) {
   if (!content || !Array.isArray(content)) {
     return <div className={styles.noContent}>No content available</div>;
   }

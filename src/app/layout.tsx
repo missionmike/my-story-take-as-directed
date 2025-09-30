@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.scss";
 import { Nunito } from "next/font/google";
 import { GoogleTagManager } from "@next/third-parties/google";
+import { DocumentProvider } from "@/contexts/DocumentContext";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -28,7 +29,9 @@ export default function RootLayout({
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <link rel="icon" href="/images/ampd-resume-favicon.png" />
       </head>
-      <body className={nunito.variable}>{children}</body>
+      <body className={nunito.variable}>
+        <DocumentProvider>{children}</DocumentProvider>
+      </body>
     </html>
   );
 }
