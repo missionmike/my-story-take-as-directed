@@ -26,27 +26,10 @@
   }
 }
 
-.refreshButton {
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #374151;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.refreshButton:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateY(-1px);
-}
-
-/* Book Content */
 .bookContent {
   padding: 2rem;
-  max-width: 800px;
+  max-width: 100%;
+  width: 900px;
   margin: 0 auto;
 }
 
@@ -95,12 +78,7 @@
   backdrop-filter: blur(8px);
   border-radius: 0.75rem;
   padding: 2.5rem;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   transition: all 0.3s ease;
-}
-
-.tabContent:hover {
-  box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.35);
 }
 
 .prose {
