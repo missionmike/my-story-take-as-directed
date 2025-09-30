@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.scss";
 import { Nunito } from "next/font/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -9,8 +10,8 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "Take As Directed",
-  description: "An autobiographical work by Michael Dinerstein",
+  title: process.env.SITE_TITLE,
+  description: process.env.SITE_DESCRIPTION,
 };
 
 export default function RootLayout({
@@ -20,6 +21,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {process.env?.GTM_ID ? (
+          <GoogleTagManager gtmId={process.env.GTM_ID} />
+        ) : null}
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <link rel="icon" href="/images/ampd-resume-favicon.png" />
+      </head>
       <body className={nunito.variable}>{children}</body>
     </html>
   );
