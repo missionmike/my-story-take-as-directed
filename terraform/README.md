@@ -1,6 +1,7 @@
 # Terraform Configuration for Google Cloud Service Account
 
-This Terraform configuration creates a Google Cloud service account with the necessary permissions to access Google Docs API.
+This Terraform configuration creates a Google Cloud service account with the necessary permissions to access Google Docs
+API.
 
 ## Prerequisites
 

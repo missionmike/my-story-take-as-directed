@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { google } from "googleapis";
-import { GoogleDocsContent } from "@/types/googleDocs";
+import { GoogleDocsContent, GoogleDocsElement } from "@/types/googleDocs";
 
 class GoogleDocsApiService {
   private docsId: string;
@@ -11,9 +11,7 @@ class GoogleDocsApiService {
 
     const serviceAccountJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
     if (!serviceAccountJson) {
-      throw new Error(
-        "Missing required environment variable: GOOGLE_SERVICE_ACCOUNT_JSON"
-      );
+      throw new Error("Missing required environment variable: GOOGLE_SERVICE_ACCOUNT_JSON");
     }
 
     try {
@@ -45,17 +43,17 @@ class GoogleDocsApiService {
       const document = response.data;
       const title = document.title || "Untitled Document";
 
-      const publishedTabs = (document.tabs || []).filter(
-        (tab) => !tab.tabProperties?.title.startsWith("D:")
-      );
+      const publishedTabs = (document.tabs || []).filter((tab) => !tab.tabProperties?.title.startsWith("D:"));
 
       return {
         title,
         content: "",
         tabs: publishedTabs.map((tab) => {
+          const richContent = (tab.documentTab?.body?.content || []) as GoogleDocsElement[];
           return {
             title: tab.tabProperties?.title || "Untitled Tab",
-            content: JSON.stringify(tab.documentTab?.body?.content || []),
+            content: JSON.stringify(richContent),
+            richContent: richContent,
           };
         }),
       };
@@ -76,10 +74,9 @@ export async function GET() {
     console.error("Error fetching document:", error);
     return NextResponse.json(
       {
-        error:
-          error instanceof Error ? error.message : "Failed to fetch document",
+        error: error instanceof Error ? error.message : "Failed to fetch document",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

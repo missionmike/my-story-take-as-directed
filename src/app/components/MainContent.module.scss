@@ -1,0 +1,155 @@
+.mainContent {
+  flex: 1;
+  margin-left: 280px;
+  min-height: 100vh;
+}
+
+.header {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  color: #374151;
+}
+
+@media (max-width: 640px) {
+  .title {
+    font-size: 2.5rem;
+  }
+}
+
+.refreshButton {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #374151;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.refreshButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Book Content */
+.bookContent {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.tabSection {
+  margin-bottom: 4rem;
+  scroll-margin-top: 2rem;
+}
+
+.tabSection:last-child {
+  margin-bottom: 2rem;
+}
+
+.tabHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(99, 102, 241, 0.2);
+}
+
+.tabTitle {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #374151;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .tabTitle {
+    font-size: 2rem;
+  }
+}
+
+.tabNumber {
+  background: linear-gradient(to right, #6366f1, #8b5cf6);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.tabContent {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border-radius: 0.75rem;
+  padding: 2.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+.tabContent:hover {
+  box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.35);
+}
+
+.prose {
+  color: #374151;
+  max-width: none;
+}
+
+.prose p {
+  margin-bottom: 1.5rem;
+  line-height: 1.8;
+  font-size: 1.125rem;
+}
+
+.prose p:last-child {
+  margin-bottom: 0;
+}
+
+.noContent {
+  text-align: center;
+  color: #6b7280;
+  font-style: italic;
+  padding: 2rem 0;
+  font-size: 1.125rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .mainContent {
+    margin-left: 0;
+  }
+
+  .bookContent {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .tabContent {
+    padding: 1.5rem;
+  }
+
+  .prose p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .tabHeader {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+}
