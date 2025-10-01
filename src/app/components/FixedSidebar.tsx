@@ -29,7 +29,6 @@ export function FixedSidebar({ document }: FixedSidebarProps) {
                 href={`/${tabSlug}`}
                 className={styles.tabNavItem}
               >
-                <span className={styles.tabNumber}>#{index + 1}</span>
                 <span className={styles.tabTitle}>{tab.title}</span>
               </Link>
             );

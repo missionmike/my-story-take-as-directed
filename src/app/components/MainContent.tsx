@@ -11,9 +11,13 @@ interface MainContentProps {
 export function MainContent({ document }: MainContentProps) {
   return (
     <div className={styles.mainContent}>
-      {/* Document Title */}
       <header className={styles.header}>
         <h1 className={styles.title}>{document.title}</h1>
+        {process.env.NEXT_PUBLIC_BOOK_AUTHOR && (
+          <p className={styles.subtitle}>
+            <em>Written by {process.env.NEXT_PUBLIC_BOOK_AUTHOR}</em>
+          </p>
+        )}
       </header>
 
       <div className={styles.bookContent}>

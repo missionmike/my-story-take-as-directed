@@ -35,17 +35,10 @@ export function RichTextRenderer({ content }: RichTextRendererProps) {
       if (textStyle.italic) {
         className += ` ${styles.italic}`;
       }
-      if (textStyle.fontSize) {
-        style.fontSize = `${textStyle.fontSize.magnitude}pt`;
-      }
-      if (textStyle.weightedFontFamily) {
-        style.fontFamily = textStyle.weightedFontFamily.fontFamily;
-        style.fontWeight = textStyle.weightedFontFamily.weight;
-      }
     }
 
     return (
-      <span key={Math.random()} className={className} style={style}>
+      <span className={className} style={style}>
         {cleanText}
       </span>
     );
@@ -57,11 +50,6 @@ export function RichTextRenderer({ content }: RichTextRendererProps) {
     const { elements, paragraphStyle } = paragraph;
     const namedStyleType = paragraphStyle?.namedStyleType;
 
-    // Determine if this is a heading
-    const isHeading =
-      namedStyleType?.includes("HEADING") || paragraphStyle?.headingId;
-    const isSubtitle = namedStyleType === "SUBTITLE";
-
     // Separate text elements from horizontal rules
     const textElements = elements.filter((element) => element.textRun);
     const horizontalRules = elements.filter(
@@ -70,7 +58,7 @@ export function RichTextRenderer({ content }: RichTextRendererProps) {
 
     // Render text elements
     const renderedTextElements = textElements
-      .map((element, elementIndex) => {
+      .map((element) => {
         if (element.textRun) {
           return renderTextRun(element.textRun);
         }
@@ -95,15 +83,34 @@ export function RichTextRenderer({ content }: RichTextRendererProps) {
     )
       return null;
 
-    // Determine paragraph class and tag
+    // Heading type configuration
+    const headingConfig: Record<
+      string,
+      { styleClass: string; tag: React.ElementType }
+    > = {
+      HEADING_1: { styleClass: styles.heading1, tag: "h1" },
+      HEADING_2: { styleClass: styles.heading2, tag: "h2" },
+      HEADING_3: { styleClass: styles.heading3, tag: "h3" },
+      HEADING_4: { styleClass: styles.heading4, tag: "h4" },
+      HEADING_5: { styleClass: styles.heading5, tag: "h5" },
+      HEADING_6: { styleClass: styles.heading6, tag: "h6" },
+      SUBTITLE: { styleClass: styles.subtitle, tag: "h3" },
+    };
+
+    // Determine paragraph class and tag based on heading level
     let paragraphClass = styles.paragraph;
     let Tag: React.ElementType = "p";
 
-    if (isHeading) {
+    if (namedStyleType && headingConfig[namedStyleType]) {
+      const config = headingConfig[namedStyleType];
+      paragraphClass += ` ${config.styleClass}`;
+      Tag = config.tag;
+    } else if (
+      namedStyleType?.includes("HEADING") ||
+      paragraphStyle?.headingId
+    ) {
+      // Fallback for any other heading type
       paragraphClass += ` ${styles.heading}`;
-      Tag = "h1";
-    } else if (isSubtitle) {
-      paragraphClass += ` ${styles.subtitle}`;
       Tag = "h2";
     }
 
