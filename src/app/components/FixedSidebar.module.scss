@@ -5,36 +5,48 @@
   top: 0;
   width: 280px;
   height: 100vh;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--bg-secondary);
   backdrop-filter: blur(8px);
-  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-right: 1px solid var(--border-light);
   z-index: 1000;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .sidebarHeader {
   padding: 1.5rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .logo {
   font-size: 1.25rem;
   font-weight: bold;
-  background: linear-gradient(to right, #0f097c, #37078b);
+  background: linear-gradient(
+    to right,
+    var(--logo-gradient-start),
+    var(--logo-gradient-end)
+  );
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   text-decoration: none;
+  transition: all 0.3s ease;
 }
 
 .sidebarContent {
   padding: 1.5rem;
+  flex: 1;
+  overflow-y: auto;
 }
 
 .sidebarTitle {
   font-size: 1.125rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--text-primary);
   margin-bottom: 1rem;
 }
 
@@ -61,7 +73,7 @@
 }
 
 .tabNavItem:hover {
-  background: rgba(99, 102, 241, 0.1);
+  background: var(--accent-hover);
 }
 
 .tabNavItem:target {
@@ -73,6 +85,15 @@
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.4;
+}
+
+.sidebarFooter {
+  padding: 1.5rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 /* Responsive Design */

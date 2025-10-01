@@ -1,12 +1,12 @@
 .container {
   display: flex;
   min-height: 100vh;
-  background: linear-gradient(135deg, #ffffff 0%, #e1d5ff 100%);
+  background: var(--bg-primary);
 }
 
 .loadingContainer {
   min-height: 100vh;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: var(--bg-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,7 +14,7 @@
 
 .loadingContent {
   text-align: center;
-  color: white;
+  color: var(--text-primary);
 }
 
 .spinner {
@@ -54,12 +54,12 @@
 .errorTitle {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #dc2626;
+  color: #ef4444;
   margin-bottom: 1rem;
 }
 
 .errorMessage {
-  color: #6b7280;
+  color: var(--text-secondary);
   margin-bottom: 1.5rem;
 }
 

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { GoogleDocsContent } from "@/types/googleDocs";
 import { slugify } from "@/utils/urlUtils";
+import { ThemeToggle } from "./ThemeToggle";
 import styles from "./FixedSidebar.module.scss";
 
 interface FixedSidebarProps {
@@ -34,6 +35,10 @@ export function FixedSidebar({ document }: FixedSidebarProps) {
             );
           })}
         </nav>
+      </div>
+
+      <div className={styles.sidebarFooter}>
+        <ThemeToggle />
       </div>
     </div>
   );

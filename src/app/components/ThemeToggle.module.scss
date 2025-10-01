@@ -1,0 +1,79 @@
+.themeToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: var(--theme-toggle-bg);
+  color: var(--theme-toggle-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    background: var(--accent-active);
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+  }
+}
+
+/* Sun icon specific styling */
+.themeToggle:has(.sunIcon) {
+  color: #f59e0b; /* Amber/yellow color for sun */
+
+  &:hover {
+    background: rgba(245, 158, 11, 0.1);
+  }
+}
+
+.sunIcon {
+  color: #f59e0b !important;
+
+  /* Add a subtle glow effect */
+  filter: drop-shadow(0 0 2px rgba(245, 158, 11, 0.3));
+}
+
+.iconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.icon {
+  transition: transform 0.3s ease;
+}
+
+.themeToggle:hover .icon {
+  transform: rotate(15deg);
+}
+
+/* Dark mode specific styles - handled by CSS variables now */
+
+/* Animation for icon switching */
+@keyframes iconSwitch {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(0.8) rotate(180deg);
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+.themeToggle:active .icon {
+  animation: iconSwitch 0.3s ease;
+}
