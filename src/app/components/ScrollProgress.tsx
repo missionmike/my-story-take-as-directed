@@ -115,7 +115,6 @@ export function ScrollProgress({ tabs }: ScrollProgressProps) {
 
           if (currentElement && nextElement) {
             const currentRect = currentElement.getBoundingClientRect();
-            const nextRect = nextElement.getBoundingClientRect();
             const viewportHeight = window.innerHeight;
 
             // Calculate how much of the current tab is visible
