@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, use, useRef } from "react";
+import { useEffect, use, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDocument } from "@/contexts/DocumentContext";
 import { findTabBySlug } from "@/utils/urlUtils";
 import { MainContent } from "@/app/components/MainContent";
 import { FixedSidebar } from "@/app/components/FixedSidebar";
 import { ScrollProgress } from "@/app/components/ScrollProgress";
+import { MobileMenuButton } from "@/app/components/MobileMenuButton";
 import styles from "@/app/page.module.scss";
 
 interface TabPageProps {
@@ -20,6 +21,31 @@ export default function TabPage({ params }: TabPageProps) {
   const router = useRouter();
   const { tabSlug } = use(params);
   const hasScrolledRef = useRef(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (isMobileMenuOpen) {
+        window.document.body.style.overflow = "hidden";
+      } else {
+        window.document.body.style.overflow = "";
+      }
+    }
+    return () => {
+      if (typeof window !== "undefined") {
+        window.document.body.style.overflow = "";
+      }
+    };
+  }, [isMobileMenuOpen]);
 
   // Validate tab slug exists and redirect if not found
   useEffect(() => {
@@ -108,7 +134,17 @@ export default function TabPage({ params }: TabPageProps) {
     <div className={styles.container}>
       <ScrollProgress tabs={document.tabs} />
 
-      <FixedSidebar document={document} />
+      <MobileMenuButton isOpen={isMobileMenuOpen} onClick={toggleMobileMenu} />
+
+      {isMobileMenuOpen && (
+        <div className={styles.overlay} onClick={closeMobileMenu}></div>
+      )}
+
+      <FixedSidebar
+        document={document}
+        isOpen={isMobileMenuOpen}
+        onClose={closeMobileMenu}
+      />
 
       <MainContent document={document} />
     </div>

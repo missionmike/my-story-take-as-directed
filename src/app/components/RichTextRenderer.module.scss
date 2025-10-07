@@ -156,10 +156,66 @@
 }
 
 /* Responsive Design */
+@media (max-width: 768px) {
+  .heading1 {
+    font-size: 2.25rem;
+  }
+
+  .heading2 {
+    font-size: 1.875rem;
+  }
+
+  .heading3 {
+    font-size: 1.5rem;
+  }
+
+  .heading4 {
+    font-size: 1.375rem;
+  }
+
+  .heading5 {
+    font-size: 1.25rem;
+  }
+
+  .heading6 {
+    font-size: 1.125rem;
+  }
+}
+
 @media (max-width: 640px) {
   .heading {
     font-size: 2rem;
     margin: 1.5rem 0 1rem 0;
+  }
+
+  .heading1 {
+    font-size: 2rem;
+    margin: 1.75rem 0 1.25rem 0;
+  }
+
+  .heading2 {
+    font-size: 1.75rem;
+    margin: 1.5rem 0 1rem 0;
+  }
+
+  .heading3 {
+    font-size: 1.5rem;
+    margin: 1.25rem 0 0.875rem 0;
+  }
+
+  .heading4 {
+    font-size: 1.25rem;
+    margin: 1rem 0 0.75rem 0;
+  }
+
+  .heading5 {
+    font-size: 1.125rem;
+    margin: 0.875rem 0 0.625rem 0;
+  }
+
+  .heading6 {
+    font-size: 1rem;
+    margin: 0.75rem 0 0.5rem 0;
   }
 
   .subtitle {
@@ -170,5 +226,34 @@
   .paragraph {
     font-size: 1rem;
     margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+
+  .excerpt {
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+  }
+
+  .excerpt::before {
+    font-size: 1.5rem;
+    left: 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .paragraph {
+    font-size: 0.9375rem;
+  }
+
+  .heading1 {
+    font-size: 1.75rem;
+  }
+
+  .heading2 {
+    font-size: 1.5rem;
+  }
+
+  .heading3 {
+    font-size: 1.375rem;
   }
 }

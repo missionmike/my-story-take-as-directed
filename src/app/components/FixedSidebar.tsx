@@ -8,11 +8,20 @@ import styles from "./FixedSidebar.module.scss";
 
 interface FixedSidebarProps {
   document: GoogleDocsContent;
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
-export function FixedSidebar({ document }: FixedSidebarProps) {
+export function FixedSidebar({ document, isOpen, onClose }: FixedSidebarProps) {
+  const handleLinkClick = () => {
+    // Close mobile menu when a link is clicked
+    if (onClose) {
+      onClose();
+    }
+  };
+
   return (
-    <div className={styles.sidebar}>
+    <div className={`${styles.sidebar} ${isOpen ? styles.sidebarOpen : ""}`}>
       <div className={styles.sidebarHeader}>
         <Link href="/" className={styles.logo}>
           {document.title}
@@ -29,6 +38,7 @@ export function FixedSidebar({ document }: FixedSidebarProps) {
                 key={index}
                 href={`/${tabSlug}`}
                 className={styles.tabNavItem}
+                onClick={handleLinkClick}
               >
                 <span className={styles.tabTitle}>{tab.title}</span>
               </Link>

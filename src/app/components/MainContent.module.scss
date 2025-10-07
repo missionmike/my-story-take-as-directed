@@ -108,16 +108,45 @@
 @media (max-width: 1024px) {
   .mainContent {
     margin-left: 0;
+    width: 100%;
+  }
+
+  .header {
+    padding: 1.5rem 1rem;
+  }
+
+  .bookContent {
+    padding: 1.5rem 1rem;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1.25rem 1rem;
+  }
+
+  .title {
+    font-size: 2rem;
   }
 
   .bookContent {
     padding: 1rem;
   }
+
+  .tabContent {
+    padding: 1.5rem 1rem;
+  }
 }
 
 @media (max-width: 640px) {
+  .title {
+    font-size: 1.75rem;
+  }
+
   .tabContent {
-    padding: 1.5rem;
+    padding: 1.25rem 0.875rem;
+    border-radius: 0.5rem;
   }
 
   .prose p {
@@ -129,5 +158,31 @@
     flex-direction: column;
     gap: 1rem;
     text-align: center;
+  }
+
+  .tabTitle {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 1rem 0.75rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .bookContent {
+    padding: 0.75rem;
+  }
+
+  .tabContent {
+    padding: 1rem 0.75rem;
+  }
+
+  .prose p {
+    font-size: 0.9375rem;
   }
 }

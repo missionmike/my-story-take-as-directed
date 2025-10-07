@@ -103,9 +103,45 @@
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
     width: 280px;
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.15);
   }
 
-  .sidebarOpen {
+  .sidebar.sidebarOpen {
     transform: translateX(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .sidebar {
+    width: 85%;
+    max-width: 320px;
+  }
+
+  .sidebarHeader {
+    padding: 1rem;
+  }
+
+  .sidebarContent {
+    padding: 1rem;
+  }
+
+  .sidebarFooter {
+    padding: 1rem;
+  }
+
+  .logo {
+    font-size: 1.125rem;
+  }
+
+  .sidebarTitle {
+    font-size: 1rem;
+  }
+
+  .tabNavItem {
+    padding: 0.625rem;
+  }
+
+  .tabTitle {
+    font-size: 0.8125rem;
   }
 }
