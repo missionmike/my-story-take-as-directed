@@ -56,10 +56,23 @@ export function RichTextRenderer({ content }: RichTextRendererProps) {
       (element) => element.horizontalRule,
     );
 
+    // Check if this paragraph starts with '>' (excerpt indicator)
+    const isExcerpt =
+      textElements.length > 0 &&
+      textElements[0]?.textRun?.content?.trim().startsWith(">");
+
     // Render text elements
     const renderedTextElements = textElements
       .map((element) => {
         if (element.textRun) {
+          // Remove the '>' prefix for excerpt paragraphs
+          if (isExcerpt && element === textElements[0]) {
+            const textRun = { ...element.textRun };
+            if (textRun.content) {
+              textRun.content = textRun.content.replace(/^>\s*/, "");
+            }
+            return renderTextRun(textRun);
+          }
           return renderTextRun(element.textRun);
         }
         return null;
@@ -101,6 +114,11 @@ export function RichTextRenderer({ content }: RichTextRendererProps) {
     let paragraphClass = styles.paragraph;
     let Tag: React.ElementType = "p";
 
+    // Add excerpt class if this is an excerpt
+    if (isExcerpt) {
+      paragraphClass += ` ${styles.excerpt}`;
+    }
+
     if (namedStyleType && headingConfig[namedStyleType]) {
       const config = headingConfig[namedStyleType];
       paragraphClass += ` ${config.styleClass}`;
@@ -114,8 +132,8 @@ export function RichTextRenderer({ content }: RichTextRendererProps) {
       Tag = "h2";
     }
 
-    // Add alignment class
-    if (paragraphStyle?.alignment) {
+    // Add alignment class (but not for excerpts to maintain their styling)
+    if (paragraphStyle?.alignment && !isExcerpt) {
       paragraphClass += ` ${styles[paragraphStyle.alignment.toLowerCase()]}`;
     }
 

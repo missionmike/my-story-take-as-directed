@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Setup script for Google Cloud Service Account
-echo "🚀 Setting up Google Cloud Service Account for Take As Directed"
+echo "🚀 Setting up Google Cloud Service Account for Google Docs + Next.js"
 echo ""
 
 # Check if gcloud is installed

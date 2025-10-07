@@ -15,7 +15,7 @@ export function FixedSidebar({ document }: FixedSidebarProps) {
     <div className={styles.sidebar}>
       <div className={styles.sidebarHeader}>
         <Link href="/" className={styles.logo}>
-          Take As Directed
+          {document.title}
         </Link>
       </div>
 
