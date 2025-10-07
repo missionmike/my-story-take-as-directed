@@ -65,11 +65,12 @@ npm install
    cp env.example .env
    ```
 
-2. Edit `.env` and add your configuration:
+2. Edit `.env` and add your configuration.
 
    ```
    GOOGLE_DOCS_ID=your_google_docs_id_here
    GOOGLE_SERVICE_ACCOUNT_JSON={"type":"service_account","project_id":"your-project",...}
+   # etc.
    ```
 
    > Note: The service account JSON content should be on one continuous line.
@@ -119,43 +120,14 @@ This app is optimized for Vercel deployment:
    - In your Vercel dashboard, go to Settings → Environment Variables
    - Add `GOOGLE_DOCS_ID` with your Google Docs ID
    - Add `GOOGLE_SERVICE_ACCOUNT_JSON` with your service account JSON
+   - etc. (see `.env.example`)
 4. **Deploy**: Vercel will automatically deploy your app!
 
 Your app will be available at `https://your-app-name.vercel.app`
 
-## Project Structure
-
-```
-src/
-├── app/
-│   ├── api/
-│   │   └── document/
-│   │       └── route.ts      # Google Docs API endpoint
-│   ├── tab/
-│   │   └── [tabIndex]/
-│   │       └── page.tsx     # Individual tab page
-│   ├── globals.css          # Global styles with Tailwind
-│   ├── layout.tsx           # Root layout
-│   └── page.tsx             # Home page
-└── types/
-    └── googleDocs.ts        # TypeScript types
-
-terraform/
-├── main.tf                  # Terraform configuration
-├── variables.tf             # Terraform variables
-├── terraform.tfvars.example # Example variables file
-└── README.md                # Terraform setup instructions
-
-setup-service-account.sh     # Automated setup script
-```
-
 ### Styling
 
-The app uses CSS modules and custom properties. Main style files:
-
-- `src/App.css` - Global styles and navigation
-- `src/pages/HomePage.css` - Home page styles
-- `src/pages/TabPage.css` - Individual tab page styles
+The app uses CSS modules and custom properties.
 
 ## Troubleshooting
 
@@ -166,12 +138,6 @@ The app uses CSS modules and custom properties. Main style files:
 - Ensure the service account has the correct permissions
 - Make sure the Google Docs API is enabled for your project
 - Verify the Google Docs ID is correct
-
-### Tab Parsing Issues
-
-- Check that your Google Doc has clear section headers
-- Modify the `isTabHeader` method if your formatting is different
-- Ensure sections are properly formatted with line breaks
 
 ### Build Issues
 
