@@ -10,6 +10,10 @@
   background: var(--bg-tertiary);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border-light);
+
+  @media (max-width: 640px) {
+    text-align: left;
+  }
 }
 
 .title {

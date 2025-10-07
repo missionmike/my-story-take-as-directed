@@ -21,8 +21,9 @@
 .progressFill {
   height: 100%;
   background: linear-gradient(to right, #6366f1, #8b5cf6);
-  transition: width 0.1s ease-out;
+  transition: width 0.05s linear;
   box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+  will-change: width;
 }
 
 .currentTab {

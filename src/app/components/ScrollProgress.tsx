@@ -14,7 +14,6 @@ export function ScrollProgress({ tabs }: ScrollProgressProps) {
   const router = useRouter();
   const lastActiveTabIndex = useRef<number>(-1);
   const isProgrammaticScroll = useRef<boolean>(false);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Function to set programmatic scroll flag
   const setProgrammaticScroll = (value: boolean) => {
@@ -34,119 +33,84 @@ export function ScrollProgress({ tabs }: ScrollProgressProps) {
   }, []);
 
   useEffect(() => {
+    let rafId: number | null = null;
+    let lastUpdateTime = 0;
+    const updateThrottle = 200; // Only update URL every 200ms
+
     const handleScroll = () => {
-      // Clear any existing timeout
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
+      if (rafId) {
+        return; // Already scheduled
       }
 
-      // Debounce the scroll handling
-      scrollTimeoutRef.current = setTimeout(() => {
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        const now = Date.now();
+
         let activeTabIndex = 0;
         let maxVisibleScore = 0;
 
+        // Simplified calculation for better performance
         for (let i = 0; i < tabs.length; i++) {
           const element = window.document.getElementById(`tab-${i}`);
           if (element) {
             const rect = element.getBoundingClientRect();
             const viewportHeight = window.innerHeight;
-            const viewportCenter = viewportHeight / 2;
 
-            // Calculate how much of the tab is visible
+            // Simpler visibility check - look for the section closest to the top
             const visibleTop = Math.max(0, rect.top);
             const visibleBottom = Math.min(viewportHeight, rect.bottom);
             const visibleHeight = Math.max(0, visibleBottom - visibleTop);
-
-            // Calculate the percentage of the tab that's visible
-            const tabHeight = rect.height;
             const visiblePercentage =
-              tabHeight > 0 ? visibleHeight / tabHeight : 0;
+              rect.height > 0 ? visibleHeight / rect.height : 0;
 
-            // Calculate distance from viewport center (closer to center = higher score)
-            const tabCenter = rect.top + rect.height / 2;
-            const distanceFromCenter = Math.abs(tabCenter - viewportCenter);
-            const centerScore = Math.max(
-              0,
-              1 - distanceFromCenter / viewportHeight,
-            );
-
-            // Combined score: visibility percentage + center proximity
-            // This prevents jumping between tabs that are equally visible
-            const combinedScore = visiblePercentage * 0.7 + centerScore * 0.3;
-
-            // Only consider tabs that are at least 20% visible
-            if (visiblePercentage > 0.2 && combinedScore > maxVisibleScore) {
-              maxVisibleScore = combinedScore;
+            // Consider sections that have their top within viewport or are dominating the view
+            if (
+              rect.top <= 150 &&
+              rect.bottom > 0 &&
+              visiblePercentage > maxVisibleScore
+            ) {
+              maxVisibleScore = visiblePercentage;
               activeTabIndex = i;
             }
           }
         }
 
-        // Only update if we have a significant change and it's not programmatic scrolling
+        // Only update URL if enough time has passed and it's a real change
         if (
           activeTabIndex !== lastActiveTabIndex.current &&
           !isProgrammaticScroll.current &&
-          maxVisibleScore > 0.2 // Only switch if the new tab is significantly visible
+          now - lastUpdateTime > updateThrottle &&
+          maxVisibleScore > 0.3 // Require significant visibility before switching
         ) {
           lastActiveTabIndex.current = activeTabIndex;
-          const activeTab = tabs[activeTabIndex];
-          if (activeTab) {
-            const tabSlug = slugify(activeTab.title);
-            // Use shallow routing to update URL without page reload
-            router.replace(`/${tabSlug}`, { scroll: false });
+          lastUpdateTime = now;
+
+          // Use homepage for first tab, otherwise use tab slug
+          if (activeTabIndex === 0) {
+            window.history.replaceState(null, "", "/");
+          } else {
+            const activeTab = tabs[activeTabIndex];
+            if (activeTab) {
+              const tabSlug = slugify(activeTab.title);
+              window.history.replaceState(null, "", `/${tabSlug}`);
+            }
           }
         }
 
-        // Reset programmatic scroll flag after a short delay
+        // Reset programmatic scroll flag
         if (isProgrammaticScroll.current) {
           setTimeout(() => {
             isProgrammaticScroll.current = false;
           }, 100);
         }
 
-        // Calculate progress to next tab based on visible area
-        if (activeTabIndex < tabs.length - 1) {
-          const currentElement = window.document.getElementById(
-            `tab-${activeTabIndex}`,
-          );
-          const nextElement = window.document.getElementById(
-            `tab-${activeTabIndex + 1}`,
-          );
-
-          if (currentElement && nextElement) {
-            const currentRect = currentElement.getBoundingClientRect();
-            const viewportHeight = window.innerHeight;
-
-            // Calculate how much of the current tab is visible
-            const currentVisibleTop = Math.max(0, currentRect.top);
-            const currentVisibleBottom = Math.min(
-              viewportHeight,
-              currentRect.bottom,
-            );
-            const currentVisibleHeight = Math.max(
-              0,
-              currentVisibleBottom - currentVisibleTop,
-            );
-            const currentVisiblePercentage =
-              currentRect.height > 0
-                ? currentVisibleHeight / currentRect.height
-                : 0;
-
-            // Calculate progress based on how much of the current tab is still visible
-            // When the current tab is fully visible, progress is 0%
-            // When the current tab is completely scrolled past, progress is 100%
-            const progressToNextTab = Math.max(
-              0,
-              Math.min(1, 1 - currentVisiblePercentage),
-            );
-
-            setProgressToNext(progressToNextTab * 100);
-          }
-        } else {
-          // Last tab - show full progress
-          setProgressToNext(100);
-        }
-      }, 50); // 50ms debounce
+        // Simpler progress calculation
+        const scrollY = window.scrollY;
+        const docHeight =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
+        setProgressToNext(Math.min(100, Math.max(0, progress)));
+      });
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -154,6 +118,9 @@ export function ScrollProgress({ tabs }: ScrollProgressProps) {
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
     };
   }, [tabs, router]);
 
