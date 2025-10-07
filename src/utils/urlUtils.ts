@@ -1,5 +1,6 @@
 /**
  * Converts a tab title to a URL-friendly slug
+ *
  * @param title - The tab title to slugify
  * @returns A URL-friendly slug
  */
@@ -15,6 +16,7 @@ export function slugify(title: string): string {
 
 /**
  * Finds a tab by its slugified title
+ *
  * @param tabs - Array of tabs
  * @param slug - The slug to match against
  * @returns The matching tab and its index, or null if not found
