@@ -1,6 +1,9 @@
 export interface TextStyle {
   bold?: boolean;
   italic?: boolean;
+  link?: {
+    url?: string;
+  };
   fontSize?: {
     magnitude: number;
     unit: string;

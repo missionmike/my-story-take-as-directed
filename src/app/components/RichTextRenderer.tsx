@@ -35,6 +35,21 @@ export function RichTextRenderer({ content }: RichTextRendererProps) {
       if (textStyle.italic) {
         className += ` ${styles.italic}`;
       }
+
+      // Handle links
+      if (textStyle.link?.url) {
+        return (
+          <a
+            href={textStyle.link.url}
+            className={`${className} ${styles.link}`}
+            style={style}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {cleanText}
+          </a>
+        );
+      }
     }
 
     return (

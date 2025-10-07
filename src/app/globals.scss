@@ -27,6 +27,8 @@ html {
   --theme-toggle-color: #2563eb;
   --logo-gradient-start: #2563eb;
   --logo-gradient-end: #1d4ed8;
+  --link-color: #2563eb;
+  --link-visited-color: #7c3aed;
 }
 
 [data-theme="dark"] {
@@ -46,6 +48,8 @@ html {
   --theme-toggle-color: #3b82f6;
   --logo-gradient-start: #3b82f6;
   --logo-gradient-end: #2563eb;
+  --link-color: #60a5fa;
+  --link-visited-color: #a78bfa;
 }
 
 body {
