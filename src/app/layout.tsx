@@ -28,7 +28,7 @@ export default function RootLayout({
           <GoogleTagManager gtmId={process.env.GTM_ID} />
         ) : null}
         <meta name="viewport" content="initial-scale=1, width=device-width" />
-        <link rel="icon" href="/images/ampd-resume-favicon.png" />
+        <link rel="icon" href="/favicon.png" />
       </head>
       <body className={nunito.variable}>
         <ThemeProvider>

@@ -50,6 +50,16 @@ export interface GoogleDocsElement {
   sectionBreak?: Record<string, unknown>;
 }
 
+export interface FrontMatter {
+  title?: string;
+  author?: string;
+  date?: string;
+  published?: boolean;
+  description?: string;
+  featuredImage?: string;
+  [key: string]: string | boolean | undefined;
+}
+
 export interface GoogleDocsContent {
   title: string;
   content: string;
@@ -57,5 +67,6 @@ export interface GoogleDocsContent {
     title: string;
     content: string;
     richContent?: GoogleDocsElement[]; // Rich text data from Google Docs API
+    frontMatter?: FrontMatter; // Parsed frontmatter if present
   }>;
 }

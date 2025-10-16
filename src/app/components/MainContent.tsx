@@ -3,6 +3,7 @@
 import { GoogleDocsContent } from "@/types/googleDocs";
 import { RichTextRenderer } from "./RichTextRenderer";
 import styles from "./MainContent.module.scss";
+import Image from "next/image";
 
 interface MainContentProps {
   document: GoogleDocsContent;
@@ -28,6 +29,16 @@ export function MainContent({ document }: MainContentProps) {
             className={styles.tabSection}
           >
             <div className={styles.tabContent}>
+              {tab?.frontMatter?.featuredImage && (
+                <Image
+                  src={`/${tab.frontMatter.featuredImage}`}
+                  alt={tab.title}
+                  className={styles.featuredImage}
+                  width={1000}
+                  height={500}
+                  layout="responsive"
+                />
+              )}
               {tab.richContent ? (
                 <RichTextRenderer content={tab.richContent} />
               ) : tab.content ? (

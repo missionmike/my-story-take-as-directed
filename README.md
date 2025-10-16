@@ -7,6 +7,8 @@ tab as its own continuous page. Perfect for deployment on Vercel!
 
 - 📄 Fetches content from Google Docs API via secure API routes
 - 🗂️ Automatically parses document tabs/sections
+- 📝 Frontmatter support for metadata (title, author, description, featured
+  images)
 - 🎨 Modern, responsive UI
 - 🚀 Built with Next.js 15, React, and TypeScript
 - 📱 Mobile-friendly design
@@ -70,11 +72,15 @@ npm install
    ```
    GOOGLE_DOCS_ID=your_google_docs_id_here
    GOOGLE_SERVICE_ACCOUNT_JSON={"type":"service_account","project_id":"your-project",...}
+   NEXT_PUBLIC_BASE_URL=http://localhost:3000
    # etc.
    ```
 
    > Note: The service account JSON content should be on one continuous line.
    > Remove any newlines!
+
+   > For production, set `NEXT_PUBLIC_BASE_URL` to your actual domain (e.g.,
+   > `https://your-app.vercel.app`)
 
 ### 4. Google Docs Formatting
 
@@ -83,6 +89,39 @@ This repository will parse each Tab as its own "page."
 The pages are continuous, and all loaded at once. However, upon scrolling
 through each page, the URL will be updated with a local hash to point to the
 current section.
+
+#### Frontmatter Support
+
+You can add frontmatter to any tab by starting the content with YAML-style
+frontmatter between `---` delimiters:
+
+```
+---
+title: Google Docs + Next.js Introduction
+author: Michael Dinerstein
+date: 2025-10-08
+published: true
+description: Publish your Google Doc as a website with google-docs-next-js and Vercel!
+featuredImage: images/torn-pages.jpg
+---
+```
+
+The frontmatter will:
+
+- Generate proper meta tags in the HTML head for SEO
+- Display nicely formatted metadata at the top of the tab
+- Support Open Graph and Twitter Card metadata
+- Be automatically stripped from the rendered content
+
+Supported fields:
+
+- `title` - Page title (overrides tab title)
+- `author` - Author name
+- `date` - Publication date
+- `description` - Page description for SEO
+- `featuredImage` - Featured image URL for social sharing
+- `published` - Whether the content is published (boolean)
+- Any custom fields you define
 
 ### 5. Get Your Google Docs ID
 

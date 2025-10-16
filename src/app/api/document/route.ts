@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { google } from "googleapis";
 import { GoogleDocsContent, GoogleDocsElement } from "@/types/googleDocs";
+import { parseFrontMatter } from "@/utils/frontmatterParser";
 
 class GoogleDocsApiService {
   private docsId: string;
@@ -45,22 +46,34 @@ class GoogleDocsApiService {
       const document = response.data;
       const title = document.title || "Untitled Document";
 
-      const publishedTabs = (document.tabs || []).filter(
+      const googleDocsTabs = (document.tabs || []).filter(
         (tab) => !tab.tabProperties?.title.startsWith("D:"),
       );
+
+      const publishedTabs = googleDocsTabs.map((tab) => {
+        const richContent = (tab.documentTab?.body?.content ||
+          []) as GoogleDocsElement[];
+
+        // Parse frontmatter from the tab content
+        const { frontMatter, contentWithoutFrontMatter } =
+          parseFrontMatter(richContent);
+
+        if (!frontMatter?.published) {
+          return null;
+        }
+
+        return {
+          title: tab.tabProperties?.title || "Untitled Tab",
+          content: JSON.stringify(contentWithoutFrontMatter),
+          richContent: contentWithoutFrontMatter,
+          frontMatter: frontMatter || undefined,
+        };
+      });
 
       return {
         title,
         content: "",
-        tabs: publishedTabs.map((tab) => {
-          const richContent = (tab.documentTab?.body?.content ||
-            []) as GoogleDocsElement[];
-          return {
-            title: tab.tabProperties?.title || "Untitled Tab",
-            content: JSON.stringify(richContent),
-            richContent: richContent,
-          };
-        }),
+        tabs: publishedTabs.filter((tab) => tab !== null),
       };
     } catch (error) {
       console.error("Error fetching Google Doc:", error);

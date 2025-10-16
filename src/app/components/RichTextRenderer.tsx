@@ -19,8 +19,8 @@ export function RichTextRenderer({ content }: RichTextRendererProps) {
     const { content: text, textStyle } = textRun;
     if (!text) return null;
 
-    // Clean up text content (remove extra newlines)
-    const cleanText = text.replace(/\n$/, "");
+    // Clean up text content (remove extra newlines and special characters)
+    const cleanText = text.replace(/\n$/, "").replaceAll("", "");
 
     if (!cleanText) return null;
 

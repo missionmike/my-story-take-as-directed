@@ -1,10 +1,7 @@
-"use client";
-
-import { useEffect, use, useRef } from "react";
-import { useRouter } from "next/navigation";
-import { useDocument } from "@/contexts/DocumentContext";
+import { Metadata } from "next";
+import { TabPageClient } from "@/app/components/TabPageClient";
+import { GoogleDocsContent } from "@/types/googleDocs";
 import { findTabBySlug } from "@/utils/urlUtils";
-import { DocumentLayout } from "@/app/components/DocumentLayout";
 
 interface TabPageProps {
   params: Promise<{
@@ -12,56 +9,85 @@ interface TabPageProps {
   }>;
 }
 
+/**
+ * Fetch document data server-side for metadata generation
+ */
+async function fetchDocument(): Promise<GoogleDocsContent | null> {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    const response = await fetch(`${baseUrl}/api/document`, {
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching document for metadata:", error);
+    return null;
+  }
+}
+
+/**
+ * Generate metadata based on frontmatter
+ */
+export async function generateMetadata({
+  params,
+}: TabPageProps): Promise<Metadata> {
+  const { tabSlug } = await params;
+  const document = await fetchDocument();
+
+  if (!document) {
+    return {
+      title: "Document Not Found",
+    };
+  }
+
+  const tabMatch = findTabBySlug(document.tabs, tabSlug);
+
+  if (!tabMatch) {
+    return {
+      title: "Tab Not Found",
+    };
+  }
+
+  const tab = document.tabs[tabMatch.index];
+  const frontMatter = tab.frontMatter;
+
+  // Use frontmatter data if available, otherwise use defaults
+  const title = frontMatter?.title || tab.title || document.title;
+  const description = frontMatter?.description;
+  const author = frontMatter?.author;
+  const featuredImage = frontMatter?.featuredImage;
+
+  const metadata: Metadata = {
+    title,
+    description,
+  };
+
+  if (author) {
+    metadata.authors = [{ name: author }];
+  }
+
+  if (featuredImage) {
+    metadata.openGraph = {
+      title,
+      description,
+      images: [featuredImage],
+    };
+    metadata.twitter = {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [featuredImage],
+    };
+  }
+
+  return metadata;
+}
+
 export default function TabPage({ params }: TabPageProps) {
-  const { document } = useDocument();
-  const router = useRouter();
-  const { tabSlug } = use(params);
-  const hasScrolledRef = useRef(false);
-
-  // Validate tab slug exists and redirect if not found
-  useEffect(() => {
-    if (document && tabSlug) {
-      const tabMatch = findTabBySlug(document.tabs, tabSlug);
-      if (!tabMatch) {
-        // Tab not found, redirect to home
-        router.push("/");
-      }
-    }
-  }, [document, tabSlug, router]);
-
-  // Scroll to the specific tab only on initial page load (refresh)
-  useEffect(() => {
-    if (document && tabSlug && !hasScrolledRef.current) {
-      const tabMatch = findTabBySlug(document.tabs, tabSlug);
-      if (tabMatch) {
-        // Use requestAnimationFrame to ensure DOM is ready
-        requestAnimationFrame(() => {
-          const element = window.document.getElementById(
-            `tab-${tabMatch.index}`,
-          );
-          if (element) {
-            // Set programmatic scroll flag to prevent URL updates
-            if (
-              (
-                window as Window & {
-                  setProgrammaticScroll?: (value: boolean) => void;
-                }
-              ).setProgrammaticScroll
-            ) {
-              window.setProgrammaticScroll(true);
-            }
-
-            element.scrollIntoView({
-              behavior: "instant", // Use instant to avoid animation
-              block: "start",
-            });
-
-            hasScrolledRef.current = true;
-          }
-        });
-      }
-    }
-  }, [document, tabSlug]);
-
-  return <DocumentLayout />;
+  return <TabPageClient params={params} />;
 }
