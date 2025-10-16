@@ -107,7 +107,7 @@ export function parseFrontMatter(content: GoogleDocsElement[]): {
   // Calculate how many characters to skip to remove frontmatter
   // Include the original leading whitespace and code block markers
   const frontMatterText = lines.slice(0, closingDelimiterIndex + 1).join("\n");
-  let charsToSkip = frontMatterText.length;
+  const charsToSkip = frontMatterText.length;
 
   // Remove frontmatter from content
   const contentWithoutFrontMatter = removeLeadingCharacters(
