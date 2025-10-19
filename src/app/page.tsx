@@ -1,22 +1,16 @@
 import { Metadata } from "next";
 import { HomePageClient } from "./components/HomePageClient";
 import { GoogleDocsContent } from "@/types/googleDocs";
+import { GoogleDocsService } from "@/services/googleDocsService";
 
 /**
  * Fetch document data server-side for metadata generation
  */
 async function fetchDocument(): Promise<GoogleDocsContent | null> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/document`, {
-      cache: "no-store",
-    });
-
-    if (!response.ok) {
-      return null;
-    }
-
-    return await response.json();
+    const googleDocsService = new GoogleDocsService();
+    const document = await googleDocsService.fetchDocument();
+    return document;
   } catch (error) {
     console.error("Error fetching document for metadata:", error);
     return null;
