@@ -46,7 +46,7 @@ export function DocumentLayout({ children, onRetry }: DocumentLayoutProps) {
       <div className={styles.loadingContainer}>
         <div className={styles.loadingContent}>
           <div className={styles.spinner}></div>
-          <p>Loading document...</p>
+          <p>Loading...</p>
         </div>
       </div>
     );
