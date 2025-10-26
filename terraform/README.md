@@ -1,12 +1,14 @@
 # Terraform Configuration for Google Cloud Service Account
 
-This Terraform configuration creates a Google Cloud service account with the necessary permissions to access Google Docs
-API.
+This Terraform configuration creates a Google Cloud service account with the
+necessary permissions to access Google Docs API.
 
 ## Prerequisites
 
-1. **Google Cloud CLI installed**: [Install gcloud CLI](https://cloud.google.com/sdk/docs/install)
-2. **Terraform installed**: [Install Terraform](https://developer.hashicorp.com/terraform/downloads)
+1. **Google Cloud CLI installed**:
+   [Install gcloud CLI](https://cloud.google.com/sdk/docs/install)
+2. **Terraform installed**:
+   [Install Terraform](https://developer.hashicorp.com/terraform/downloads)
 3. **Google Cloud Project**: You need an existing GCP project
 
 ## Setup Instructions
@@ -72,8 +74,8 @@ Add the service account key to your `.env` file:
 
 ```bash
 # In your project root .env file
-VITE_GOOGLE_DOCS_ID=your_google_docs_id_here
-VITE_GOOGLE_SERVICE_ACCOUNT_JSON={"type":"service_account","project_id":"your-project",...}
+GOOGLE_DOCS_ID=your_google_docs_id_here
+GOOGLE_SERVICE_ACCOUNT_JSON={"type":"service_account","project_id":"your-project",...}
 ```
 
 ## Terraform Commands Reference
@@ -130,7 +132,8 @@ gcloud projects get-iam-policy YOUR_PROJECT_ID
 
 ### API Not Enabled
 
-The Terraform configuration automatically enables the Google Docs API, but you can also do it manually:
+The Terraform configuration automatically enables the Google Docs API, but you
+can also do it manually:
 
 ```bash
 gcloud services enable docs.googleapis.com
