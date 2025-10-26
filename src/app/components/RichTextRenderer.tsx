@@ -20,7 +20,7 @@ export function RichTextRenderer({ content }: RichTextRendererProps) {
     if (!text) return null;
 
     // Clean up text content (remove extra newlines and special characters)
-    let cleanText = text.replace(/\n$/, "").replaceAll("", "");
+    const cleanText = text.replace(/\n$/, "").replaceAll("", "");
 
     if (!cleanText) return null;
 
