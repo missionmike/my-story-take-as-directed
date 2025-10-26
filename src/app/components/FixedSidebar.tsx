@@ -37,6 +37,7 @@ export function FixedSidebar({ document, isOpen, onClose }: FixedSidebarProps) {
           {document.tabs.map((tab, index) => {
             const tabSlug = slugify(tab.title);
             const isActive = pathname === `/${tabSlug}`;
+
             return (
               <Link
                 key={index}
