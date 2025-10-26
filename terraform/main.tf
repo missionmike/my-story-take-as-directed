@@ -30,7 +30,7 @@ resource "google_service_account_key" "docs_reader_key" {
 # Grant the service account access to Google Docs API
 resource "google_project_service" "docs_api" {
   service = "docs.googleapis.com"
-  
+
   disable_on_destroy = false
 }
 
@@ -43,14 +43,14 @@ resource "google_project_iam_member" "docs_reader_viewer" {
 
 # Output the service account email
 output "service_account_email" {
-  value = google_service_account.docs_reader.email
+  value       = google_service_account.docs_reader.email
   description = "Email of the service account to share your Google Doc with"
 }
 
 # Output the service account key (base64 encoded)
 output "service_account_key" {
-  value     = base64decode(google_service_account_key.docs_reader_key.private_key)
-  sensitive = true
+  value       = base64decode(google_service_account_key.docs_reader_key.private_key)
+  sensitive   = true
   description = "Service account key JSON (keep this secure!)"
 }
 
@@ -60,7 +60,7 @@ output "instructions" {
     Setup Instructions:
     1. Copy the service_account_key output above
     2. Share your Google Doc with: ${google_service_account.docs_reader.email}
-    3. Add the key to your .env file as VITE_GOOGLE_SERVICE_ACCOUNT_JSON
+    3. Add the key to your .env file as GOOGLE_SERVICE_ACCOUNT_JSON
     4. Get your Google Docs ID from the document URL
     5. Add VITE_GOOGLE_DOCS_ID to your .env file
   EOT
