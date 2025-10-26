@@ -81,6 +81,22 @@
   color: white;
 }
 
+.tabNavItem.active {
+  background: var(--accent-hover);
+}
+
+.tabNavItem.active .tabTitle {
+  font-weight: 700;
+  background: linear-gradient(
+    to right,
+    var(--logo-gradient-start),
+    var(--logo-gradient-end)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
 .tabTitle {
   font-size: 0.875rem;
   font-weight: 500;
